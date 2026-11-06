@@ -2,6 +2,14 @@
 
 A short checklist for the current Screen Sharing timeout. Stop at the first step that fixes it. Details and background are in [TROUBLESHOOTING.md](TROUBLESHOOTING.md). Replace the uppercase placeholders with the real values you were given privately.
 
+## ⭐ Try these first (most likely fixes)
+
+1. **Coworker: sign in to Tailscale with the invited email.** Tailscale menu-bar icon → check that the email at the top is the one the share invitation went to. If it is different: **Log out → Quit → reopen → Log in with that email**, and make sure **hg7-macmini** is in the list. Details: [step 2a](#2a-connected-but-nothing-works-check-the-account-and-device).
+2. **Host administrator: add the coworker to Screen Sharing.** On HG7: System Settings → General → Sharing → ⓘ Screen Sharing → **+** → the coworker's account. Without this, the login is refused even when the network works. Details: [step 1](#1-allow-the-coworker-to-use-screen-sharing).
+3. **Coworker: quit other VPN/proxy apps completely and restart your Mac.** After restarting, open only Tailscale and try `vnc://HG7_TAILSCALE_IP` again. Details: [steps 4–5](#4-quit-other-vpn-and-proxy-apps-completely).
+
+Still not working? Go through the full list below in order.
+
 ## Findings from HG7's side (2026-11-06)
 
 - HG7's macOS firewall is **off**, so it is not blocking anything.

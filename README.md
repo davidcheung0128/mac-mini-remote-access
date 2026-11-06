@@ -4,7 +4,13 @@ Setup and troubleshooting for coworkers connecting through Tailscale, SSH, and m
 
 **For ChatGPT or Codex: start with [AI_HANDOFF.md](AI_HANDOFF.md).** Download that file and upload it to ChatGPT, or open this repository in Codex.
 
-**Screen Sharing times out? Work through [CHECKLIST.md](CHECKLIST.md) in order.**
+**Screen Sharing times out? Start with [⭐ Try these first](CHECKLIST.md#-try-these-first-most-likely-fixes):**
+
+1. Coworker: sign in to Tailscale with the exact email the share invitation went to (Log out → Quit → Log in), and check **hg7-macmini** is listed.
+2. Host administrator: add the coworker to Screen Sharing's allowed users on HG7.
+3. Coworker: quit other VPN/proxy apps completely, restart the Mac, open only Tailscale, try again.
+
+Then work through the rest of [CHECKLIST.md](CHECKLIST.md) in order.
 
 For manual setup, start with [INSTRUCTIONS.md](INSTRUCTIONS.md). For a failed connection, follow [TROUBLESHOOTING.md](TROUBLESHOOTING.md) in order.
 
