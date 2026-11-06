@@ -75,8 +75,8 @@ Click the Tailscale menu-bar icon. It should say **Connected**, signed in with t
 7. Send the host administrator your new `COWORKER_TAILSCALE_IP`, which may have changed. They can confirm from HG7 that your device is online:
 
    ```bash
-   tailscale status | grep COWORKER_TAILSCALE_IP
-   tailscale ping COWORKER_TAILSCALE_IP
+   /Applications/Tailscale.app/Contents/MacOS/Tailscale status | grep COWORKER_TAILSCALE_IP
+   /Applications/Tailscale.app/Contents/MacOS/Tailscale ping COWORKER_TAILSCALE_IP
    ```
 
 8. Run the `tailscale ping` in step 2, then step 3.
