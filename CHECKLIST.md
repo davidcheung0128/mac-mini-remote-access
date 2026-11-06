@@ -9,6 +9,7 @@ A short checklist for the current Screen Sharing timeout. Stop at the first step
 - `tailscale ping` between HG7 and the coworker's Mac **succeeds**. Tailscale itself is connected.
 - During the coworker's SSH/VNC attempts, HG7 **received 0 bytes** from the coworker's Mac. The connection attempts never reached HG7, so the coworker's Mac is sending them somewhere other than Tailscale.
 - The coworker's account was **not yet** in Screen Sharing's allowed-users list. Even after the network works, VNC will refuse the login until the host administrator fixes this (step 1).
+- On 2026-11-07, the coworker's Tailscale app showed "Connected" with the other VPN off, but HG7 saw the coworker's only known device as **offline** and could not ping it. The Mac was connected to Tailscale, but not as the device or account that HG7 is shared with. Fix: step 2a.
 
 ## Host administrator
 
@@ -43,7 +44,44 @@ Click the Tailscale menu-bar icon. It should say **Connected**, signed in with t
 /Applications/Tailscale.app/Contents/MacOS/Tailscale ping HG7_TAILSCALE_IP
 ```
 
-`pong from …` means Tailscale works. If it fails: menu-bar icon → Disconnect → Connect, then try again.
+`pong from …` means Tailscale works. If it fails, or "Connected" shows but nothing works, do step 2a.
+
+### 2a. "Connected" but nothing works: check the account and device
+
+"Connected" only means your Mac is on *a* tailnet. HG7 is shared with one specific Tailscale account. If your Mac is signed in with a different email, or is a different or re-registered device, HG7 cannot see it.
+
+**Check:**
+
+1. Click the Tailscale menu-bar icon.
+2. The **account email** at the top must be exactly the email the share invitation was sent to (`COWORKER_INVITED_EMAIL`).
+3. Under **This device**, note your Mac's Tailscale address (`COWORKER_TAILSCALE_IP`).
+4. **hg7-macmini** must appear in the device list.
+5. In Terminal:
+
+   ```bash
+   /Applications/Tailscale.app/Contents/MacOS/Tailscale status
+   ```
+
+   The first line is your own Mac: its address and account. Check that HG7 appears in the list and isn't marked `offline`.
+
+**Fix, if the email is wrong, HG7 is missing, or the host administrator says your device looks offline:**
+
+1. Tailscale menu-bar icon → your account → **Log out**.
+2. Quit Tailscale completely (menu-bar icon → **Quit**).
+3. Open Tailscale again → **Log in** → choose the **same sign-in method and email** the invitation was sent to (e.g. "Sign in with Google" for a Gmail address).
+4. If you have several accounts, use the account switcher in the menu to select that email.
+5. If **hg7-macmini** is still missing, open the invitation email again and click **Accept** while signed in with that email. Ask the host administrator to resend the share if the link has expired.
+6. Wait until the icon shows **Connected** and **hg7-macmini** is in the list.
+7. Send the host administrator your new `COWORKER_TAILSCALE_IP`, which may have changed. They can confirm from HG7 that your device is online:
+
+   ```bash
+   tailscale status | grep COWORKER_TAILSCALE_IP
+   tailscale ping COWORKER_TAILSCALE_IP
+   ```
+
+8. Run the `tailscale ping` in step 2, then step 3.
+
+If the email and device are correct but the host administrator still sees your device as offline, restart your Mac (step 5), open only Tailscale, and check again.
 
 ### 3. Find out where your Mac sends HG7 traffic
 
