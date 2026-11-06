@@ -8,6 +8,48 @@ A short checklist for the current Screen Sharing timeout. Stop at the first step
 2. **Host administrator: add the coworker to Screen Sharing.** On HG7: System Settings → General → Sharing → ⓘ Screen Sharing → **+** → the coworker's account. Without this, the login is refused even when the network works. Details: [step 1](#1-allow-the-coworker-to-use-screen-sharing).
 3. **Coworker: quit other VPN/proxy apps completely and restart your Mac.** After restarting, open only Tailscale and try `vnc://HG7_TAILSCALE_IP` again. Details: [steps 4–5](#4-quit-other-vpn-and-proxy-apps-completely).
 
+## Copy-paste commands (coworker's own Mac)
+
+Paste each block into Terminal on **your own Mac**, one at a time. Replace the uppercase placeholders first.
+
+**1. Which account and device am I on?**
+
+```bash
+TS=/Applications/Tailscale.app/Contents/MacOS/Tailscale; $TS status | head -3; $TS switch --list
+```
+
+The first line is your own Mac: its address (`COWORKER_TAILSCALE_IP`) and account. In the account list, the one marked `*` must be `COWORKER_INVITED_EMAIL`.
+
+**2. Wrong account, or HG7 missing? Log out and back in:**
+
+```bash
+TS=/Applications/Tailscale.app/Contents/MacOS/Tailscale; $TS logout; $TS up
+```
+
+A browser login page opens. Sign in with `COWORKER_INVITED_EMAIL`, using the same method the invitation used (e.g. Google).
+
+**3. Test the connection to HG7:**
+
+```bash
+TS=/Applications/Tailscale.app/Contents/MacOS/Tailscale; $TS ping -c 3 HG7_TAILSCALE_IP; route -n get HG7_TAILSCALE_IP | grep interface; nc -vz -G 5 HG7_TAILSCALE_IP 5900
+```
+
+What you should see:
+
+- `pong from hg7-macmini`
+- `interface: utun…`
+- `succeeded`
+
+If not, screenshot the output and send it to the host administrator.
+
+**4. Open Screen Sharing:**
+
+```bash
+open vnc://HG7_TAILSCALE_IP
+```
+
+Log in with `coworkeraccount` and your HG7 password, then choose **Log in as yourself**. It is refused until the host administrator has done [step 1](#1-allow-the-coworker-to-use-screen-sharing).
+
 Still not working? Go through the full list below in order.
 
 ## Findings from HG7's side (2026-11-06)

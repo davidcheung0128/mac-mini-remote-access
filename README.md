@@ -10,7 +10,7 @@ Setup and troubleshooting for coworkers connecting through Tailscale, SSH, and m
 2. Host administrator: add the coworker to Screen Sharing's allowed users on HG7.
 3. Coworker: quit other VPN/proxy apps completely, restart the Mac, open only Tailscale, try again.
 
-Then work through the rest of [CHECKLIST.md](CHECKLIST.md) in order.
+Copy-paste Terminal commands for these checks: [CHECKLIST.md → Copy-paste commands](CHECKLIST.md#copy-paste-commands-coworkers-own-mac). Then work through the rest of [CHECKLIST.md](CHECKLIST.md) in order.
 
 For manual setup, start with [INSTRUCTIONS.md](INSTRUCTIONS.md). For a failed connection, follow [TROUBLESHOOTING.md](TROUBLESHOOTING.md) in order.
 
