@@ -4,6 +4,8 @@ Setup and troubleshooting for coworkers connecting through Tailscale, SSH, and m
 
 **For ChatGPT or Codex: start with [AI_HANDOFF.md](AI_HANDOFF.md).** Download that file and upload it to ChatGPT, or open this repository in Codex.
 
+**Screen Sharing times out? Work through [CHECKLIST.md](CHECKLIST.md) in order.**
+
 For manual setup, start with [INSTRUCTIONS.md](INSTRUCTIONS.md). For a failed connection, follow [TROUBLESHOOTING.md](TROUBLESHOOTING.md) in order.
 
 ## Connection details
@@ -30,7 +32,8 @@ No passwords, private keys, or invitation links belong in this repository. This 
 - Coworker successfully authenticated over SSH as `coworkeraccount`.
 - The user reported SSH working after disconnecting NordVPN. Treat VPN coexistence as a likely contributor, not proof of every later failure.
 - Coworker's successful port-5900 test was run **inside HG7's SSH session**. It proves HG7 could reach its own service, not that Coworker's computer could reach it.
-- Coworker was reported to be in the Screen Sharing allowed-users list.
+- Coworker was reported to be in the Screen Sharing allowed-users list, but a check on HG7 on 2026-11-06 found the account was **not** a member. See [CHECKLIST.md](CHECKLIST.md) step 1.
+- On 2026-11-06, `tailscale ping` between the two Macs succeeded while HG7 received 0 bytes from the coworker's connection attempts. HG7's firewall was off and the tailnet policy allowed the coworker's address.
 - Coworker's Screen Sharing login still hung. The client-side port test and an end-to-end desktop login remain unverified. This repository does not claim that issue is resolved.
 
 ## References

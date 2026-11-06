@@ -98,6 +98,8 @@ If this works while direct Standard VNC fails, investigate the direct 5900 path.
 
 ## 5. Current incident: next missing evidence
 
+For the short ordered list of fixes, see [CHECKLIST.md](CHECKLIST.md). As of 2026-11-06, HG7 received no traffic from the coworker's Mac even though `tailscale ping` worked, which points to routing on the coworker's Mac (another VPN or proxy).
+
 Coworker authenticated over SSH. HG7's self-test on port 5900 succeeded. The remaining required test is **Coworker's Mac → HG7 TCP 5900**, followed by a Standard-mode login with the verified account. No successful Coworker desktop session has been documented yet.
 
 ## Report template
