@@ -2,24 +2,24 @@
 
 How a coworker connects to the HG7 Mac mini from their own Mac with Tailscale and macOS Screen Sharing (VNC), and how to fix it when it times out. **Everything you need is on this page.** The other files have extra detail.
 
-This repository is public. Every address, account and email here is a placeholder. Get the real values privately from the host administrator, and never put passwords, keys or invitation links here.
+The real addresses and account names are filled in on this page. The other files use placeholders. Never put passwords, keys or invitation links in this repository.
 
 ## Connection details
 
 | Item | Value |
 | --- | --- |
 | Machine | HG7 Mac Mini / `hg7-macmini` |
-| HG7 Tailscale address | `HG7_TAILSCALE_IP` |
-| Coworker's account on HG7 | `coworkeraccount` (a Standard account, not an admin one) |
-| Email the Tailscale share was sent to | `COWORKER_INVITED_EMAIL` |
-| Coworker's own Mac's Tailscale address | `COWORKER_TAILSCALE_IP` |
+| HG7 Tailscale address | `100.64.27.127` |
+| Coworker's account on HG7 | `kelvinwan` (a Standard account, not an admin one) |
+| Email the Tailscale share was sent to | `kelvinwan.fseng@gmail.com` |
+| Coworker's own Mac's Tailscale address | `100.72.141.53` (as of 2026-11-06; may change after logging in again) |
 | Screen Sharing port | TCP 5900 (SSH: TCP 22) |
 
 ## How to connect (when everything is set up)
 
 1. Turn on **Tailscale** on your Mac (menu-bar icon → **Connected**).
-2. Finder → **Command+K** → `vnc://HG7_TAILSCALE_IP` → Connect.
-3. Log in with `coworkeraccount` and your **HG7** password (not your Tailscale or own-Mac password).
+2. Finder → **Command+K** → `vnc://100.64.27.127` → Connect.
+3. Log in with `kelvinwan` and your **HG7** password (not your Tailscale or own-Mac password).
 4. If asked, choose **Log in as yourself**.
 5. When finished, close the window or log out. **Never Restart or Shut Down HG7.** It runs shared work systems.
 
@@ -36,13 +36,13 @@ Without this, HG7 refuses the login even when the network works. On HG7, with an
 Or in Terminal on HG7 (it asks for the admin password):
 
 ```bash
-sudo dseditgroup -o edit -a coworkeraccount -t user com.apple.access_screensharing
+sudo dseditgroup -o edit -a kelvinwan -t user com.apple.access_screensharing
 ```
 
 Check it worked. It should print `user is a member of the group`:
 
 ```bash
-dsmemberutil checkmembership -U coworkeraccount -G com.apple.access_screensharing
+dsmemberutil checkmembership -U kelvinwan -G com.apple.access_screensharing
 ```
 
 ### 2. Coworker: be signed in to Tailscale with the invited email
@@ -56,7 +56,7 @@ TS=/Applications/Tailscale.app/Contents/MacOS/Tailscale; $TS status | head -3; $
 ```
 
 - The first line is your own Mac. It shows your address and your account.
-- In the account list, the one marked `*` must be `COWORKER_INVITED_EMAIL`.
+- In the account list, the one marked `*` must be `kelvinwan.fseng@gmail.com`.
 - **hg7-macmini** should appear in the device list.
 
 **If the account is wrong or hg7-macmini is missing**, log out and back in:
@@ -65,7 +65,7 @@ TS=/Applications/Tailscale.app/Contents/MacOS/Tailscale; $TS status | head -3; $
 TS=/Applications/Tailscale.app/Contents/MacOS/Tailscale; $TS logout; $TS up
 ```
 
-A browser login page opens. Sign in with `COWORKER_INVITED_EMAIL`, using the same method the invitation used (e.g. **Sign in with Google** for a Gmail address). If hg7-macmini still isn't listed, open the invitation email and click **Accept** while signed in with that email, or ask the host administrator to resend the share.
+A browser login page opens. Sign in with `kelvinwan.fseng@gmail.com`, using the same method the invitation used (e.g. **Sign in with Google** for a Gmail address). If hg7-macmini still isn't listed, open the invitation email and click **Accept** while signed in with that email, or ask the host administrator to resend the share.
 
 ### 3. Coworker: quit other VPN and proxy apps, then restart
 
@@ -81,7 +81,7 @@ Other VPNs and proxies (NordVPN, Clash/Surge, company VPNs) can take over HG7's 
 Paste into Terminal on **your own Mac** (not inside an SSH session to HG7):
 
 ```bash
-TS=/Applications/Tailscale.app/Contents/MacOS/Tailscale; $TS ping -c 3 HG7_TAILSCALE_IP; route -n get HG7_TAILSCALE_IP | grep interface; nc -vz -G 5 HG7_TAILSCALE_IP 5900
+TS=/Applications/Tailscale.app/Contents/MacOS/Tailscale; $TS ping -c 3 100.64.27.127; route -n get 100.64.27.127 | grep interface; nc -vz -G 5 100.64.27.127 5900
 ```
 
 What you should see:
@@ -92,7 +92,7 @@ What you should see:
 
 | Result | Meaning | Fix |
 | --- | --- | --- |
-| All three good | The network works | Connect: `open vnc://HG7_TAILSCALE_IP` |
+| All three good | The network works | Connect: `open vnc://100.64.27.127` |
 | `ping` fails or "no reply" | Wrong account/device, or Tailscale not really connected | Fix 2, then retry |
 | `pong` but `interface:` is not `utun…` | Another app is taking HG7's traffic | Fix 3 |
 | `pong` and `utun…` but `nc` times out | Another VPN or filter is blocking it | Fix 3. Also quit Docker/OrbStack and security tools, then retry |
@@ -104,7 +104,7 @@ A timeout before any password prompt is a **network** problem. Do not reset the 
 To open Screen Sharing from Terminal:
 
 ```bash
-open vnc://HG7_TAILSCALE_IP
+open vnc://100.64.27.127
 ```
 
 ## Host administrator: check from HG7
@@ -112,8 +112,8 @@ open vnc://HG7_TAILSCALE_IP
 On HG7, to see whether the coworker's Mac is online and reachable:
 
 ```bash
-/Applications/Tailscale.app/Contents/MacOS/Tailscale status | grep COWORKER_TAILSCALE_IP
-/Applications/Tailscale.app/Contents/MacOS/Tailscale ping COWORKER_TAILSCALE_IP
+/Applications/Tailscale.app/Contents/MacOS/Tailscale status | grep 100.72.141.53
+/Applications/Tailscale.app/Contents/MacOS/Tailscale ping 100.72.141.53
 ```
 
 If it shows `offline` or "no reply" while the coworker's app says Connected, the coworker needs Fix 2.
